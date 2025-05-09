@@ -296,23 +296,6 @@ header {
   color: white;
 }
 
-.logout-button {
-  background: white;
-  padding: 5px 10px;
-  border-radius: 10px;
-  color: black;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
-  transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
-
-  text-decoration: none; /* Remove the underline */
-}
-
-/* Change the background color and add a stronger shadow on hover */
-.logout-button:hover {
-  background: #f0f0f0; /* Change to your desired hover background color */
-  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5); /* Enhance the shadow on hover */
-}
-
 a {
   text-decoration: none;
 }
