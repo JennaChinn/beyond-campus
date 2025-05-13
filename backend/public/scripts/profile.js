@@ -120,4 +120,5 @@ window.addEventListener("load", () => {
             document.querySelector(".unblock-user-wrapper").classList.add("show");
           }
         }));
+      document.querySelector(".report-user-button").style.display="block";
 });

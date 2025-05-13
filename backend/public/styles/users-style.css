@@ -48,6 +48,8 @@ header {
   padding: 5px 10px;
   border-radius: 10px;
   color: black;
+  margin: 5%;
+  font-size: 12px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
 

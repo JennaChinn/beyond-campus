@@ -1,5 +1,7 @@
 import { getCookie } from "./getCookie.js";
 import { category_noseparate } from "./category_noseparate.js";
+import { confirmMessage, promptMessage } from "./new-prompt.js";
+
 
 var openPopup;
 var blockUsers = [];
@@ -39,8 +41,8 @@ function createRequestCard(user) {
           <p><strong>Gender:</strong> ${user.gender}</p>
           <div class="hashtag-list class${user.user_id}">
           </div>
-          <button class="request-button" id="reject">Reject Request</button>
-          <button class="request-button" id="accept">Accept Request</button>
+          <button class="request-button reject-friend-button">Reject Request</button>
+          <button class="request-button accept-friend-button">Accept Request</button>
       `;
 
   return card;
@@ -86,38 +88,38 @@ const showPopup = (id) => {
 }
 
 const reportComment = (username, user_id, comment) => {
-  if (!window.confirm(`Are you sure you want to report ${username}?`)) return;
-  const notes = prompt("Why are you reporting this user?");
-
-  const jwt = getCookie("jwt");
-  if (jwt) {
-    // Include the token in the fetch request headers
-    const headers = new Headers({
-      Authorization: `${jwt}`,
-      "Content-Type": "application/json",
+  confirmMessage(promptBox,`Are you sure you want to report ${username}?`, () => {
+    promptMessage(promptBox,"Why are you reporting this user?", (notes) => {
+      const jwt = getCookie("jwt");
+      if (jwt) {
+        // Include the token in the fetch request headers
+        const headers = new Headers({
+          Authorization: `${jwt}`,
+          "Content-Type": "application/json",
+        });
+        fetch("/api/report", {
+            method: "POST",
+            headers,
+            body: JSON.stringify({report_id: user_id, message: comment, notes: notes}),
+        })
+        .then((response) => response.json())
+        .then((result) => {
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error("Error reporting user");
+        });
+      } else {
+        console.error("JWT token not found in cookie");
+        window.location.href = "/auth/logout";
+      }
     });
-    fetch("/api/report", {
-        method: "POST",
-        headers,
-        body: JSON.stringify({report_id: user_id, message: comment, notes: notes}),
-    })
-    .then((response) => response.json())
-    .then((result) => {
-        window.confirm("User reported!");
-        window.location.href="/"
-    })
-    .catch((error) => {
-        console.error("Error reporting user");
-    });
-  } else {
-    console.error("JWT token not found in cookie");
-    window.location.href = "/auth/logout";
-  }
+  });
 }
 
 const userCardsContainer = document.querySelector(".friends");
 const requestContainer = document.querySelector(".requests");
-
+const promptBox = document.querySelector(".prompt-box");
 window.addEventListener("load", () => {
   // Get the JWT token from the cookie
   const jwt = getCookie("jwt");
@@ -218,13 +220,7 @@ window.addEventListener("load", () => {
 
             const messageFriendButton = userCard.querySelector(".message-friend-button");
             messageFriendButton.addEventListener("click", () => {
-              var body = prompt(`What do you want to say to ${friendData.username}?`);
-              fetch("/messages",{
-                method:"POST",
-                headers,
-                body: JSON.stringify({user_id: friendData.user_id, body: body}),
-              })
-                .then((response) => alert("Message sent!"));
+              window.location.href=`/messages/conversation?user_id=${friendData.user_id}`
             });
 
             const removeFriendButton = userCard.querySelector(
@@ -232,11 +228,7 @@ window.addEventListener("load", () => {
             );
             removeFriendButton.addEventListener("click", () => {
               // Make a POST fetch request with user_id as the request body
-              if (
-                window.confirm(
-                  `Are you sure you want to remove ${friendData.username} from your friends list?`
-                )
-              ) {
+              confirmMessage(promptBox,`Are you sure you want to remove ${friendData.username} from your friends list?`, () => {
                 const user_id = friendData.user_id;
                 fetch(`/api/friends`, {
                   method: "DELETE",
@@ -246,11 +238,7 @@ window.addEventListener("load", () => {
                   .then((response) => {
                     response.json()
                       .then((result) => {
-                        if (window.confirm("Friend removed!")) {
-                          location.reload();
-                        } else {
-                          location.reload();
-                        }
+                        location.reload();
                         // You can add additional logic here, like showing a confirmation message.
                       })
                       .catch((error) => {
@@ -260,7 +248,7 @@ window.addEventListener("load", () => {
                   .catch((error) => {
                     console.error("Error removing friend:", error);
                   });
-              }
+              });
             })
           }
         })
@@ -286,15 +274,11 @@ window.addEventListener("load", () => {
           
             // reject button
             const rejectFriendButton = requestCard.querySelector(
-              "#reject"
+              ".reject-friend-button"
             );
             rejectFriendButton.addEventListener("click", () => {
               // Make a DELETE fetch request with user_id as the request body
-              if (
-                window.confirm(
-                  `Are you sure you want to reject ${requestData.username}'s friend request?`
-                )
-              ) {
+              confirmMessage(promptBox,`Are you sure you want to reject ${requestData.username}'s friend request?`, () => {
                 const req_id = requestData.user_id;
                 fetch(`/api/requests`, {
                   method: "DELETE",
@@ -304,11 +288,7 @@ window.addEventListener("load", () => {
                   .then((response) => {
                     response.json()
                       .then((result) => {
-                        if (window.confirm("Request rejected!")) {
-                          location.reload();
-                        } else {
-                          location.reload();
-                        }
+                        location.reload();
                       })
                       .catch((error) => {
                         console.error("Error in reject accepting request json decode:", error);
@@ -317,12 +297,12 @@ window.addEventListener("load", () => {
                   .catch((error) => {
                     console.error("Error in reject accepting request:", error);
                   })
-              }
+              });
             });
           
             // accept button
             const acceptFriendButton = requestCard.querySelector(
-              "#accept"
+              ".accept-friend-button"
             );
             acceptFriendButton.addEventListener("click", () => {
               const req_id = requestData.user_id;
@@ -334,7 +314,6 @@ window.addEventListener("load", () => {
                 .then((response) => {
                   response.json()
                     .then((result) => {
-                      window.confirm("Request accepted!");
                       location.reload();
                     })
                     .catch((error) => {
@@ -357,7 +336,7 @@ window.addEventListener("load", () => {
     <form id="new-forum-post-form" style="margin-bottom: 1em;">
       <input type="text" id="forum-title" placeholder="Title" required style="margin-right: 0.5em;">
       <input type="text" id="forum-body" placeholder="Body" required style="margin-right: 0.5em;">
-      <button type="submit">Post</button>
+      <button type="submit" class="forum-button">Post</button>
     </form>
     <div class="forum-posts"></div>
   `;
@@ -418,7 +397,7 @@ window.addEventListener("load", () => {
                 <div class="forum-comments" id="forum-comments-${post.post_id}"></div>
                 <form class="new-comment-form" data-post-id="${post.post_id}" style="margin-top:0.5em;">
                   <input type="text" class="comment-body" placeholder="Add a comment..." required style="margin-right:0.5em;">
-                  <button type="submit">Comment</button>
+                  <button type="submit" class="forum-button">Comment</button>
                 </form>
                 <hr>
               `;
@@ -523,4 +502,9 @@ window.addEventListener("load", () => {
       }
     })
     .catch(() => {});
+
+  promptBox.innerHTML = `<p id="prompt-title">Prompt title</p>
+  <textarea id="promptTextarea"></textarea>
+  <button class="hashtag" id="prompt-cancel">Cancel</button>
+  <button class="hashtag" id="prompt-accept">Submit</button>`;
 });

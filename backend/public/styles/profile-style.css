@@ -30,7 +30,7 @@ header {
   background: #842434;
   padding: 0 50px 0 50px;
   height: $header-height;
-  z-index: 999;
+  z-index: 5;
 }
 
 .container-fluid {
@@ -46,11 +46,14 @@ header {
   color: white;
 }
 
-.logout-button {
+.logout-button,
+.message-button {
   background: white;
   padding: 5px 10px;
   border-radius: 10px;
   color: black;
+  margin: 5%;
+  font-size: 12px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
 
@@ -58,7 +61,8 @@ header {
 }
 
 /* Change the background color and add a stronger shadow on hover */
-.logout-button:hover {
+.logout-button:hover,
+.message-button:hover {
   background: #f0f0f0; /* Change to your desired hover background color */
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5); /* Enhance the shadow on hover */
 }
@@ -68,17 +72,17 @@ a {
 }
 
 menu {
-  width: 260px;
+  width: 30%;
   position: fixed;
   padding: 0;
-  z-index: 10;
+  z-index: 4;
   height: calc(100% - 100px);
   overflow-y: auto;
   background: rgba(214, 214, 212, 0.2);
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
 
   top: 59px;
-  left: 50px;
+  left: 10%;
   margin: 0;
   overflow-y: auto;
 }
@@ -183,12 +187,12 @@ menu .filter-form {
 
 main {
   position: relative;
-  width: calc(100% - 400px);
+  width: 50%;
   min-height: 100%;
   height: auto !important;
   height: 100%;
   padding: 20px;
-  margin-left: 310px;
+  margin-left: 40%;
   margin-top: $header-height;
   float: left;
   padding-bottom: $header-height;
@@ -275,7 +279,7 @@ header {
   background: #842434;
   padding: 0 50px 0 50px;
   height: $header-height;
-  z-index: 999;
+  z-index: 5;
 }
 
 .container-fluid {
@@ -296,6 +300,8 @@ header {
   padding: 5px 10px;
   border-radius: 10px;
   color: black;
+  margin: 5%;
+  font-size: 12px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
 
@@ -365,7 +371,7 @@ a {
 .block-user-wrapper,
 .unblock-user-wrapper,
 .report-user-wrapper {
-  display:none;
+  display: none;
   width: 100%;
   flex-direction: row;
   justify-content: center;
@@ -373,7 +379,11 @@ a {
   margin-top: 15px;
 }
 
-.toggle-button {
+.add-friend-button,
+.remove-friend-button,
+.block-user-button,
+.unblock-user-button,
+.report-user-button {
   background-color: #842434;
   display: none;
   color: #fff;
@@ -386,13 +396,20 @@ a {
   transition: background-color 0.2s;
 }
 
-.toggle-button:hover {
+.add-friend-button:hover,
+.remove-friend-button:hover,
+.block-user-button:hover,
+.unblock-user-button:hover,
+.report-user-button:hover {
   background-color: #741424;
 }
 
-.show .toggle-button,
+.show .toggle-button {
+  display: block;
+}
+
 .show {
-  display:block;
+  display: flex;
 }
 
 .hashtag-list {
@@ -413,3 +430,52 @@ a {
   font-weight: bold;
 }
 
+.prompt-box {
+  padding: 5px;
+  position:fixed;
+  margin:auto;
+  width: 40%;
+  height: fit-content;
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size as needed */
+  background-color: #842434; /* Text color */
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10;
+}
+
+#promptTextarea {
+  display:block;
+  width: 80%; /* Use 100% width for a cleaner look */
+  margin-bottom: 20px;
+  height: 25%;
+  padding: 10px;
+  border: 2px solid #842434; /* Red border color */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size as needed */
+  color: #842434; /* Text color */
+  margin: auto;
+}
+
+#prompt-cancel {
+  left: 5%;
+  margin: 5px;
+}
+
+#prompt-accept {
+  left: 25%;
+  margin-bottom: 5px;
+}
+
+.cover {
+  z-index: 9;
+  position: fixed;
+  background-color: rgba(0,0,0,0.25);
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  visibility: hidden;
+}

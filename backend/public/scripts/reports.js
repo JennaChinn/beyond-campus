@@ -1,8 +1,15 @@
 import { getCookie } from "./getCookie.js";
+import { confirmMessage, alertMessage } from "./new-prompt.js";
+
 const jwt = getCookie("jwt");
 
+const promptBox = document.querySelector(".prompt-box");
+promptBox.innerHTML = `<p id="prompt-title">Prompt title</p>
+<textarea id="promptTextarea"></textarea>
+<button class="prompt-button" id="prompt-cancel">Cancel</button>
+<button class="prompt-button" id="prompt-accept">Submit</button>`;
+
 function createUserCard(report) {
-    console.log(report);
     const card = document.createElement("div");
     card.className = "user-card";
     card.innerHTML = `
@@ -85,8 +92,7 @@ const logReport = (user_id, report_id) => {
         })
         .then((response) => response.json())
         .then((result) => {
-            window.confirm("Report logged!");
-            window.location.reload();
+            alertMessage(promptBox,"Report logged",() => {window.location.reload()});
         })
         .catch((error) => {
             console.error("Error reporting user");
@@ -110,8 +116,7 @@ const deleteReport = (report_id) => {
         })
         .then((response) => response.json())
         .then((result) => {
-            window.confirm("Report deleted!");
-            window.location.reload();
+            alertMessage(promptBox,"Report deleted",() => {window.location.reload()});
         })
         .catch((error) => {
             console.error("Error deleting report");
@@ -123,27 +128,27 @@ const deleteReport = (report_id) => {
 }
 
 const removeUser = (report_id) => {
-    if (!window.confirm("Are you sure you want to delete this user? This cannot be undone")) return;
-    if (jwt) {
-        const headers = new Headers({
-            Authorization: `${jwt}`,
-            "Content-Type": "application/json",
-        });
-        fetch("/admin/users",{
-            method: "DELETE",
-            headers,
-            body: JSON.stringify({user_id: report_id}),
-        })
-        .then((response) => response.json())
-        .then((result) => {
-            window.confirm("User removed!");
-            window.location.reload();
-        })
-        .catch((error) => {
-            console.error("Error deleting report");
-        })
-    } else {
-        console.error("JWT token not found in cookie");
-        window.location.href = "/auth/logout";
-    }
+    confirmMessage(promptBox,"Are you sure you want to delete this user? This action cannot be undone", () => {
+        if (jwt) {
+            const headers = new Headers({
+                Authorization: `${jwt}`,
+                "Content-Type": "application/json",
+            });
+            fetch("/admin/users",{
+                method: "DELETE",
+                headers,
+                body: JSON.stringify({user_id: report_id}),
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                alertMessage(promptBox,"User removed",() => window.location.reload());
+            })
+            .catch((error) => {
+                console.error("Error deleting report");
+            })
+        } else {
+            console.error("JWT token not found in cookie");
+            window.location.href = "/auth/logout";
+        }
+    });
 }

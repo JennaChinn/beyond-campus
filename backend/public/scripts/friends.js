@@ -18,7 +18,7 @@ function createUserCard(user, common_tags) {
           <p><strong>Gender:</strong> ${user.gender}</p>
           <div class="hashtag-list class${user.user_id}">
           </div>
-          <button class="add-friend-button">Add Friend</button>
+          <button class="add-friend-button">Send Friend Request</button>
           <div class="already-friends-div">Already Friends!</div>
       `;
   return card;
@@ -34,6 +34,24 @@ function createHashtag(user_id, hashtags) {
     });
     hashtagsDiv.appendChild(hashtagSpan);
   }
+}
+
+const requestFriend = (button, user_id, headers) => {
+  // Make a POST fetch request with user_id as the request body
+  fetch(`/api/friends`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ friend_user_id: user_id }),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      button.className = "request-sent-button";
+      button.innerHTML = "Request sent!";
+      button.removeEventListener("click",requestFriend);
+    })
+    .catch((error) => {
+      console.error("Error sending friend request:", error);
+    });
 }
 
 const userCardsContainer = document.querySelector(".user-cards");
@@ -109,26 +127,7 @@ window.addEventListener("load", () => {
               createHashtag(friendlist[index].user_id, friendlist[index].tags);
               const addFriendButton =
                 userCard.querySelector(".add-friend-button");
-              addFriendButton.addEventListener("click", () => {
-                // Make a POST fetch request with user_id as the request body
-                const user_id = friendlist[index].user_id;
-                fetch(`/api/friends`, {
-                  method: "POST",
-                  headers,
-                  body: JSON.stringify({ friend_user_id: user_id }),
-                })
-                  .then((response) => response.json())
-                  .then((result) => {
-                    if (window.confirm("Friend request sent!")) {
-                      location.reload();
-                    } else {
-                      location.reload();
-                    }
-                  })
-                  .catch((error) => {
-                    console.error("Error sending friend request:", error);
-                  });
-              });
+              addFriendButton.addEventListener("click", () => {requestFriend(addFriendButton,friendlist[index].user_id,headers)});
 
               const isFriendOfUser = initFriendsList?.some(
                 (friend) => friend.user_id == friendlist[index].user_id

@@ -107,6 +107,72 @@ a {
   margin: 10px 0;
 }
 
+.prompt-box {
+  padding: 5px;
+  position:fixed;
+  margin:auto;
+  width: 40%;
+  height: fit-content;
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size as needed */
+  background-color: #842434; /* Text color */
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10;
+}
+
+#promptTextarea {
+  display:block;
+  width: 80%; /* Use 100% width for a cleaner look */
+  margin-bottom: 20px;
+  height: 25%;
+  padding: 10px;
+  border: 2px solid #842434; /* Red border color */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size as needed */
+  color: #842434; /* Text color */
+  margin: auto;
+}
+
+#prompt-cancel {
+  position: relative;
+  left: 5%;
+  margin: 5px;
+  bottom: 5%;
+}
+
+#prompt-accept {
+  position: relative;
+  left: 25%;
+  bottom: 5%;
+  margin-bottom: 5px;
+}
+
+.cover {
+  z-index: 9;
+  position: fixed;
+  background-color: rgba(0,0,0,0.25);
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  visibility: hidden;
+}
+
+.prompt-button {
+  background-color: white;
+  border: 2px solid #842434;
+  color: #842434;
+  padding: 5px 10px;
+  border-radius: 25px;
+  font-weight: bold;
+  position: relative;
+  bottom: 5%;
+}
+
+=======
 .user-card button {
   background-color: #842434;
   color: #fff;

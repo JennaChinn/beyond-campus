@@ -40,6 +40,13 @@ require("./routes/adminRouter.js")(app);
 // routes for messages
 require("./routes/messageRouter.js")(app);
 
+
+//in general this is not the correct way to do this but for now this
+//will solve the issue
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.resolve("favicon.ico"))
+});
+
 app.get("/", (req, res) => {
   // if not logged in, redirect to the login page
 

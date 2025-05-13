@@ -1,7 +1,9 @@
 import { getCookie } from "./getCookie.js";
+import { alertMessage } from "./new-prompt.js";
 
 const blockButton = document.querySelector("#blocked-button");
 const blockDiv = document.querySelector(".blocked-users");
+const promptBox = document.querySelector(".prompt-box");
 var show = false;
 var openPopup;
 
@@ -70,8 +72,7 @@ const unblockUser = (id) => {
       })
       .then((response) => response.json())
       .then((result) => {
-          window.confirm("User unblocked!");
-          window.location.reload();
+        alertMessage(promptBox,"User unblocked",() => window.location.reload());
       })
       .catch((error) => {
           console.error("Error unblocking user");

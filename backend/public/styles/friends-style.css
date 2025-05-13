@@ -127,7 +127,8 @@ a {
   background-color: #741424;
 }
 
-.already-friends-div {
+.already-friends-div,
+.request-sent-button {
   background-color: gray;
   color: black;
   display: none;
