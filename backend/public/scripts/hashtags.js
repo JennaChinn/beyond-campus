@@ -1,9 +1,10 @@
 import { category } from "./category.js";
 import { getCookie } from "./getCookie.js";
-const jwt = getCookie("jwt");
+import { promptMessage, confirmMessage} from "./new-prompt.js";
 
 var openPopup;
 var headers;
+const promptBox = document.querySelector(".prompt-box");
 
 const createCell = (row, tag) => {
     const c = row.insertCell();
@@ -65,6 +66,10 @@ const createCatPopup = (cell,name) => {
 }
 
 window.addEventListener("load", () => {
+    promptBox.innerHTML = `<p id="prompt-title">Prompt title</p>
+    <textarea id="promptTextarea"></textarea>
+    <button class="prompt-button" id="prompt-cancel">Cancel</button>
+    <button class="prompt-button" id="prompt-accept">Submit</button>`;
     document.getElementById("new-category").addEventListener("click",()=>addCategory());
 
     const table = document.createElement("table");
@@ -73,7 +78,6 @@ window.addEventListener("load", () => {
     head.appendChild(document.createElement("th")).appendChild(document.createTextNode("Category"));
     head.appendChild(document.createElement("th")).appendChild(document.createTextNode("Tags"));
     category.then((data) => {
-        console.log(data);
         Object.keys(data).forEach((x) => {
             var row = table.insertRow();
             var cat = row.insertCell();
@@ -130,59 +134,67 @@ const showPopup = (id) => {
 }
 
 const addCategory = () => {
-    var newName = prompt(`Enter name of new category`);
-    fetch("/admin/hashtags/category/new", {
-        method: "POST",
-        body: JSON.stringify({"name": newName}),
-        headers,
-    })
-    .then((res) => window.location.reload());
+    promptMessage(promptBox,"Enter name of new category",(newName) => {
+        fetch("/admin/hashtags/category/new", {
+            method: "POST",
+            body: JSON.stringify({"name": newName}),
+            headers,
+        })
+        .then((res) => window.location.reload());
+    });
 }
 
 const addTag = (category) => {
-    var newName = prompt(`Enter name of new tag`);
-    fetch("/admin/hashtags", {
-        method: "POST",
-        body: JSON.stringify({ "category": category, "name": newName }),
-        headers,
-    })
-    .then((res) => window.location.reload());
+    promptMessage(promptBox,"Enter name of new tag",(newName) => {
+        fetch("/admin/hashtags", {
+            method: "POST",
+            body: JSON.stringify({ "category": category, "name": newName }),
+            headers,
+        })
+        .then((res) => window.location.reload());
+    });
 }
 
 const renameCategory = (name) => {
-    var newName = prompt(`Enter new name for category "${name}"`);
-    fetch("/admin/hashtags/category", {
-        method: "POST",
-        body: JSON.stringify({ "category": name, "name": newName }),
-        headers,
-    })
-    .then((res) => { window.location.reload(); });
+    promptMessage(promptBox,`Enter new name for category ${name}`, (newName) => {
+        fetch("/admin/hashtags/category", {
+            method: "POST",
+            body: JSON.stringify({ "category": name, "name": newName }),
+            headers,
+        })
+        .then((res) => window.location.reload());
+    });
 }
 
 const deleteCategory = (name) => {
-    fetch("/admin/hashtags/category", {
-        method: "DELETE",
-        body: JSON.stringify({"category": name}),
-        headers,
+    confirmMessage(promptBox,`Are you sure you want to delete category "${name}"?`, () => {
+        fetch("/admin/hashtags/category", {
+            method: "DELETE",
+            body: JSON.stringify({"category": name}),
+            headers,
+        })
+        .then((res) => window.location.reload());
     })
-    .then((res) => window.location.reload());
 }
 
 const deleteTag = (id) => {
-    fetch("/admin/hashtags/tag", {
-      method: "DELETE",
-      body: JSON.stringify({"tag": id}),
-      headers,
-    })
-    .then((res) => window.location.reload());
+    confirmMessage(promptBox,`Are you sure you want to delete this tag?`, () => {
+        fetch("/admin/hashtags/tag", {
+            method: "DELETE",
+            body: JSON.stringify({"tag": id}),
+            headers,
+        })
+        .then((res) => window.location.reload());
+    });
 }
 
 const editTag = (id) => {
-    var newName = prompt(`Enter new name for tag "${document.getElementById(id).name}"`);
-    fetch("/admin/hashtags/tag", {
-        method: "POST",
-        body: JSON.stringify({ "tag": id, "name": newName }),
-        headers,
-    })
-    .then((res) => window.location.reload());
+    promptMessage(promptBox,`Enter new name for tag "${document.getElementById(id).name}"`, (newName) => {
+        fetch("/admin/hashtags/tag", {
+            method: "POST",
+            body: JSON.stringify({ "tag": id, "name": newName }),
+            headers,
+        })
+        .then((res) => window.location.reload());
+    });
 }
