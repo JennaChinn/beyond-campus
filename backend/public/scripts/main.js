@@ -336,7 +336,7 @@ window.addEventListener("load", () => {
     <form id="new-forum-post-form" style="margin-bottom: 1em;">
       <input type="text" id="forum-title" placeholder="Title" required style="margin-right: 0.5em;">
       <input type="text" id="forum-body" placeholder="Body" required style="margin-right: 0.5em;">
-      <button type="submit">Post</button>
+      <button type="submit" class="forum-button">Post</button>
     </form>
     <div class="forum-posts"></div>
   `;
@@ -397,7 +397,7 @@ window.addEventListener("load", () => {
                 <div class="forum-comments" id="forum-comments-${post.post_id}"></div>
                 <form class="new-comment-form" data-post-id="${post.post_id}" style="margin-top:0.5em;">
                   <input type="text" class="comment-body" placeholder="Add a comment..." required style="margin-right:0.5em;">
-                  <button type="submit">Comment</button>
+                  <button type="submit" class="forum-button">Comment</button>
                 </form>
                 <hr>
               `;

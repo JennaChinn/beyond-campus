@@ -1,4 +1,5 @@
 import { getCookie } from "./getCookie.js";
+import { confirmMessage, promptMessage, alertMessage } from "./new-prompt.js";
 
 function getTagsFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -6,6 +7,7 @@ function getTagsFromURL() {
 }
 
 const addFriendButton = document.querySelector(".add-friend-button");
+const promptBox = document.querySelector(".prompt-box");
 addFriendButton.addEventListener("click", () => {
   const jwt = getCookie("jwt");
   const user_id = getTagsFromURL();
@@ -23,11 +25,7 @@ addFriendButton.addEventListener("click", () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        if (window.confirm("Friend added!")) {
-          location.reload();
-        } else {
-          location.reload();
-        }
+        alertMessage(promptBox,"Friend request sent",() => window.location.reload());
       })
       .catch((error) => {
         console.error("Error sending friend request:", error);
@@ -43,11 +41,7 @@ removeFriendButton.addEventListener("click", () => {
   const jwt = getCookie("jwt");
   const user_id = getTagsFromURL();
 
-  if (
-    window.confirm(
-      "Are you sure you want to remove this user from your friends list?"
-    )
-  ) {
+  confirmMessage(promptBox,"Are you sure you want to remove this user from your friends list?",() => {
     if (jwt) {
       // Include the token in the fetch request headers
       const headers = new Headers({
@@ -74,6 +68,5 @@ removeFriendButton.addEventListener("click", () => {
       console.error("JWT token not found in cookie");
       window.location.href = "/auth/logout";
     }
-  } else {
-  }
+  });
 });
