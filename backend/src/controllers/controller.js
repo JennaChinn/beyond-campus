@@ -519,7 +519,6 @@ exports.getCurrentUserRequests = (req, res) => {
  */
 
 exports.blockUser = (req, res) => {
-  console.log(req.body);
   Block.blockUser(req.session.nickname, req.body.block_id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
