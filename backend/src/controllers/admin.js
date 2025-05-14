@@ -11,6 +11,10 @@ const Hashtag = require("../models/hashtag.model");
 const Categories = require("../models/categories.model");
 const Report = require("../models/report.model");
 
+exports.isAdmin = (req, res) => {
+  res.send({success: true, data: authCheck.isAdmin(req,res)});
+}
+
 exports.getAdminCenter = (req, res) => {
     if (authCheck.isOwner(req, res)) {
       res.sendFile(path.resolve("../public/admin.html"));

@@ -50,7 +50,7 @@ header {
   color: black;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
-
+  font-size: 12px;
   text-decoration: none; /* Remove the underline */
 }
 
@@ -66,6 +66,8 @@ a {
 
 .preview-container {
   margin-top:25%;
+  margin-left: 5%;
+  margin-right:5%;
 }
 
 ul {
@@ -73,9 +75,11 @@ ul {
   clear: both;
   float: unset;
   border: 3px solid black;
+  padding:0;
 }
 li {
   border: 1px solid black;
   margin: 10px;
   cursor: pointer;
+  padding-left: 5px;
 }

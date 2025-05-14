@@ -7,8 +7,8 @@ export function confirmMessage(promptBox, message, func) {
 
   accept.innerHTML = "Confirm";
   cancel.style.display="inline";
-  cancel.addEventListener("click",() => cancelPrompt(promptBox));
-  accept.addEventListener("click",() => sendConfirm(func));
+  cancel.addEventListener("click",() => cancelPrompt(promptBox),{once: true});
+  accept.addEventListener("click",() => sendConfirm(func),{once: true});
 
   document.querySelector(".cover").style.visibility="visible";
 }
@@ -22,8 +22,8 @@ export function promptMessage(promptBox, message, func) {
 
   accept.innerHTML = "Submit";
   cancel.style.display="inline";
-  cancel.addEventListener("click",() => cancelPrompt(promptBox));
-  accept.addEventListener("click",() => sendPrompt(promptBox,func));
+  cancel.addEventListener("click",() => cancelPrompt(promptBox),{once: true});
+  accept.addEventListener("click",() => sendPrompt(promptBox,func),{once: true});
 
   document.querySelector(".cover").style.visibility="visible";
 }
@@ -37,12 +37,13 @@ export function alertMessage(promptBox, message, func) {
 
   accept.innerHTML = "OK";
   cancel.style.display="none";
-  accept.addEventListener("click",() => sendPrompt(promptBox,func));
+  accept.addEventListener("click",() => sendPrompt(promptBox,func),{once: true});
 
   document.querySelector(".cover").style.visibility="visible";
 }
 
 const cancelPrompt = (promptBox) => {
+  document.querySelector(".cover").style.visibility="hidden";
   promptBox.querySelector("#promptTextarea").value="";
   document.querySelector(".cover").style.visibility="hidden";
 }
@@ -50,7 +51,6 @@ const cancelPrompt = (promptBox) => {
 const sendPrompt = (promptBox, func) => {
   const val = promptBox.querySelector("#promptTextarea").value;
   promptBox.querySelector("#promptTextarea").value="";
-  document.querySelector(".cover").style.visibility="hidden";
   func(val);
 }
 

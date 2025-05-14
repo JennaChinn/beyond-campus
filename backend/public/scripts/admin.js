@@ -8,14 +8,13 @@ window.addEventListener("load", () => {
           Authorization: `${jwt}`,
           "Content-Type": "application/json",
         });
-        fetch("/api/user", {
+        fetch("/admin/verify", {
             method: "GET",
             headers,
         })
         .then((response) => response.json()
-            .then((userData) => {
-                console.log(userData);
-                if (!userData.perm) {
+            .then((data) => {
+                if (!data.data) {
                     alert("Access Denied");
                     window.location.href = "/";
                 }

@@ -19,6 +19,7 @@ body {
   padding: 0;
   font-family: "Poppins", sans-serif;
   background-color: #fbfefc;
+  background-attachment:fixed;
 }
 
 header {
@@ -56,6 +57,8 @@ header {
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
 
   text-decoration: none; /* Remove the underline */
+  margin-left: 10px;
+  font-size: 12px;
 }
 
 /* Change the background color and add a stronger shadow on hover */
@@ -70,25 +73,29 @@ a {
 }
 
 menu {
-  width: 30%;
+  width: 33%;
   position: fixed;
   padding: 0;
   z-index: 4;
-  height: calc(100% - 100px);
+  height: 100%;
   overflow-y: auto;
   background: rgba(214, 214, 212, 0.2);
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
 
   top: 59px;
-  left: 10%;
+  left: 5%;
   margin: 0;
-  overflow-y: auto;
 }
 
 menu ul {
   list-style: none;
   clear: both;
   float: unset;
+}
+
+li.popup {
+  margin-left: -40%;
+  border: 1px solid black;
 }
 
 menu > div {
@@ -244,6 +251,7 @@ section {
   border-radius: 25px;
   cursor: pointer;
   font-weight: bold;
+  margin-top: 5px;
 }
 
 .bio-button:hover,
@@ -278,7 +286,7 @@ header {
   top: 0;
   box-sizing: border-box;
   background: #842434;
-  padding: 0 50px 0 50px;
+  padding: 0 5% 0 5%;
   height: $header-height;
   z-index: 5;
 }
@@ -294,23 +302,6 @@ header {
 .site-title h1 {
   font-size: 24px;
   color: white;
-}
-
-.logout-button {
-  background: white;
-  padding: 5px 10px;
-  border-radius: 10px;
-  color: black;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
-  transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
-
-  text-decoration: none; /* Remove the underline */
-}
-
-/* Change the background color and add a stronger shadow on hover */
-.logout-button:hover {
-  background: #f0f0f0; /* Change to your desired hover background color */
-  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5); /* Enhance the shadow on hover */
 }
 
 a {
@@ -378,6 +369,7 @@ a {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
+  margin-top:5%;
 }
 
 .remove-friend-button:hover,
@@ -412,7 +404,7 @@ a {
 
 .popup .popuptext {
   visibility: hidden;
-  width: 160px;
+  width: 90%;
   background-color: #842434;
   color: white;
   text-align: center;
@@ -421,6 +413,7 @@ a {
   position: absolute;
   bottom: 120%;
   left: 0%;
+  padding: 5%;
 }
 
 .popup .popuptext::after {
@@ -456,6 +449,7 @@ a {
 
 .blocked-users {
   background-color: white;
+  margin-top: 5%;
 }
 
 .prompt-box {
@@ -472,6 +466,7 @@ a {
   left: 50%;
   transform: translate(-50%,-50%);
   z-index: 10;
+  min-width:fit-content;
 }
 
 #promptTextarea {
@@ -510,4 +505,11 @@ a {
   top:0;
   left:0;
   visibility: hidden;
+}
+
+#forum-title,
+#forum-body,
+.comment-body {
+  border: 2px solid #842434; /* Red border color */
+  border-radius: 8px; /* Rounded corners */
 }

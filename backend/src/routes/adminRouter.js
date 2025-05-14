@@ -8,6 +8,8 @@ module.exports = (app) => {
 
   var router = require("express").Router();
 
+  router.get("/verify",admin.isAdmin);
+
   router.get("/adminCenter", admin.getAdminCenter);
 
   router.get("/hashtags", admin.getHashtags);

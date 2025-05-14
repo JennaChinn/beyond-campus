@@ -86,39 +86,50 @@ window.addEventListener("load", () => {
       console.error("Error fetching hashtag data:", error);
     });
 
-  fetch("/api/friends", {
+  fetch("/admin/verify", {
     method: "GET",
     headers,
   })
     .then((response) => response.json())
     .then((data) => {
-      const friendsList = data?.data;
-      const isFriendOfUser = friendsList?.some(
-        (friend) => friend.user_id == user_id
-      );
-      if (!isFriendOfUser) {
-        document.querySelector(".add-button-wrapper").classList.add("show");
-      } else {
-        document.querySelector(".remove-button-wrapper").classList.add("show");
+      if (data.data) {
+        document.querySelector(".message-button").style.display="none";
+        return;
       }
-    })
-      .catch((error) => {
-        console.error("Error getting friends: ", error);
-      });
-
-      fetch("/api/block",{
+      fetch("/api/friends", {
         method: "GET",
-        headers
+        headers,
       })
-        .then((response) => response.json().then((data) => {
-          if (!data.data) return;
-          var blocks = data.data;
-          if (blocks.every((b) => b.user_id != user_id)) {
-            document.querySelector(".block-user-wrapper").classList.add("show");
+        .then((response) => response.json())
+        .then((data) => {
+          const friendsList = data?.data;
+          const isFriendOfUser = friendsList?.some(
+            (friend) => friend.user_id == user_id
+          );
+          if (!isFriendOfUser) {
+            document.querySelector(".add-button-wrapper").classList.add("show");
+          } else {
+            document.querySelector(".remove-button-wrapper").classList.add("show");
           }
-          else {
-            document.querySelector(".unblock-user-wrapper").classList.add("show");
-          }
-        }));
-      document.querySelector(".report-user-button").style.display="block";
+        })
+          .catch((error) => {
+            console.error("Error getting friends: ", error);
+          });
+
+          fetch("/api/block",{
+            method: "GET",
+            headers
+          })
+            .then((response) => response.json().then((data) => {
+              if (!data.data) return;
+              var blocks = data.data;
+              if (blocks.every((b) => b.user_id != user_id)) {
+                document.querySelector(".block-user-wrapper").classList.add("show");
+              }
+              else {
+                document.querySelector(".unblock-user-wrapper").classList.add("show");
+              }
+            }));
+          document.querySelector(".report-user-button").style.display="block";
+    });
 });

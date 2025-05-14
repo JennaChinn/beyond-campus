@@ -25,7 +25,7 @@ header {
   top: 0;
   box-sizing: border-box;
   background: #842434;
-  padding: 0 50px 0 50px;
+  padding: 0 5% 0 5%;
   height: $header-height;
   z-index: 999;
 }
@@ -39,7 +39,7 @@ header {
 }
 
 .site-title h1 {
-  font-size: 24px;
+  font-size: 20px;
   color: white;
 }
 
@@ -51,7 +51,8 @@ header {
   color: black;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
-
+  font-size: 12px;
+  margin-left: 10px;
   text-decoration: none; /* Remove the underline */
 }
 
@@ -173,4 +174,82 @@ li {
 .option-button:hover {
     background-color: transparent;
     color:white;
+}
+
+.prompt-box {
+  padding: 5px;
+  position:fixed;
+  margin:auto;
+  width: 40%;
+  height: fit-content;
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size as needed */
+  background-color: #842434; /* Text color */
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10;
+  min-width:fit-content;
+}
+
+#promptTextarea {
+  display:block;
+  width: 80%; /* Use 100% width for a cleaner look */
+  margin-bottom: 20px;
+  height: 30%;
+  padding: 10px;
+  border: 2px solid #842434; /* Red border color */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size as needed */
+  color: #842434; /* Text color */
+  margin: auto;
+}
+
+#prompt-cancel {
+  left: 5%;
+}
+
+#prompt-accept {
+  left: 10%;
+}
+
+.cover {
+  z-index: 9;
+  position: fixed;
+  background-color: rgba(0,0,0,0.25);
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  visibility: hidden;
+}
+
+.prompt-button {
+  background-color: white;
+  border: 2px solid #842434;
+  color: #842434;
+  padding: 5px 10px;
+  border-radius: 25px;
+  font-weight: bold;
+  position: relative;
+  bottom: 5%;
+  margin-bottom: 5px;
+}
+
+.profile-button {
+    width: 60%;
+    background-color: #842434;
+    color: white;
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+    margin: auto;
+}
+
+.profile-button:hover {
+  background-color: #a63c4c; /* Lighter red on hover for buttons */
 }
