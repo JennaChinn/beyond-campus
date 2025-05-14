@@ -9,7 +9,7 @@ Block.blockUser = (user_id, other_id, result) => {
     return;
   }
   db.query(
-      "INSERT INTO block (user_blocker, user_blocked) values (?,?) ON DUPLICATE KEY UPDATE user_blocker=user_blocker;",
+      "INSERT INTO block (user_blocker, user_blocked) SELECT ?, user_id FROM user WHERE user_id=? AND permissions=0 ON DUPLICATE KEY UPDATE user_blocker=user_blocker;",
       [user_id,other_id],
       (err, res) => {
           if (err) {
