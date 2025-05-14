@@ -330,7 +330,7 @@ window.addEventListener("load", () => {
 
   // --- FORUM POSTS SECTION ---
   // Create a container for forum posts below friend requests
-  const forumSection = document.createElement("section");
+  const forumSection = document.createElement("div");
   forumSection.innerHTML = `
     <h2>Forum</h2>
     <form id="new-forum-post-form" style="margin-bottom: 1em;">
