@@ -5,38 +5,40 @@
     <title>Login</title>
   </head>
   <body>
-    <div class="container-login">
-      <div class="title">Beyond Campus</div>
-      <div class="content">
-        <form action="/auth/login_process" method="post">
-          <div class="user-details-login">
-            <div class="input-box">
-              <span class="details">Email</span>
-              <input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                required
-              />
+    <div class="center">
+      <div class="container-login">
+        <div class="title">Beyond Campus</div>
+        <div class="content">
+          <form action="/auth/login_process" method="post">
+            <div class="user-details-login">
+              <div class="input-box">
+                <span class="details">Email</span>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="input-box">
+                <span class="details">Password</span>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
             </div>
-            <div class="input-box">
-              <span class="details">Password</span>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                required
-              />
+            <p class="warning-text"></p>
+            <div class="button">
+              <input type="submit" value="Log in" />
             </div>
-          </div>
-          <p class="warning-text"></p>
-          <div class="button">
-            <input type="submit" value="Log in" />
-          </div>
-        </form>
-        <span class="signup-text"
-          >Don't have an account? <a href="signup">Sign up</a></span
-        >
+          </form>
+          <span class="signup-text"
+            >Don't have an account? <a href="signup">Sign up</a></span
+          >
+        </div>
       </div>
     </div>
     <script src="../scripts/validateLogin.js" type="module"></script>

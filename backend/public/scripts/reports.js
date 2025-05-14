@@ -47,13 +47,13 @@ window.addEventListener("load", () => {
           "Content-Type": "application/json",
         });
         
-        fetch("/api/user", {
+        fetch("/admin/verify", {
             method: "GET",
             headers,
         })
-        .then((response) => response.json())
-        .then((userData) => {
-            if (!userData.perm) {
+        .then((response) => response.json()
+        .then((data) => {
+            if (!data.data) {
                 alert("Access Denied");
                 window.location.href = "/";
             }
@@ -66,12 +66,16 @@ window.addEventListener("load", () => {
                 .then((response) => response.json())
                 .then((data) => data.data)
                 .then((data) => {
+                    if (!Object.keys(data).length) {
+                        cardContainer.innerHTML = "No reports";
+                        return;
+                    }
                     data.forEach((x) => {
                         cardContainer.appendChild(createUserCard(x));
                     });
                 });
             }
-        })
+        }));
         
     } else {
         console.error("JWT token not found in cookie");

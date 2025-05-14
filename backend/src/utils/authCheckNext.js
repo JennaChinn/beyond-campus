@@ -11,4 +11,12 @@ module.exports = {
       return response.status(403).send("No authorization");
     }
   },
+  
+  isAdmin: function (request, response) {
+    if (request.session.perm) {
+      return true;
+    } else {
+      return false;
+    }
+  },
 };
