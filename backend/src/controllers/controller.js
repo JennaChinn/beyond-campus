@@ -51,6 +51,10 @@ exports.findUser = (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  if (req.query.user_id == req.session.nickname) {
+    res.send({success: false});
+    return;
+  }
 
   User.findById(req.query.user_id, req.session.nickname, (err, data) => {
     if (err) {

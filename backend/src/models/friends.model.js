@@ -36,6 +36,10 @@ Friends.getUserRequests = (user_id, result) => {
 }
 
 Friends.requestFriend = (user_id, friend_user_id, result) => {
+  if (user_id == friend_user_id) {
+    result(null, null);
+    return;
+  }
   if (user_id < friend_user_id) var uid1 = user_id, uid2 = friend_user_id;
   else var uid1 = friend_user_id, uid2 = user_id;
   db.query(
@@ -90,18 +94,18 @@ Friends.requestFriend = (user_id, friend_user_id, result) => {
                   } else {
                     result(null, null);
                     return;
-                  }
-                }
-              );
+              }});
             });
-        }
-      );
-    }
-  );
+      });
+  });
 }
 
 // Insert a friendship (direct add without a request; optional usage)
 Friends.insertFriend = (user_id, friend_user_id, result) => {
+  if (user_id == friend_user_id) {
+    result(err, null);
+    return;
+  }
   if (user_id < friend_user_id) var uid1 = user_id, uid2 = friend_user_id;
   else var uid1 = friend_user_id, uid2 = user_id;
   db.query(

@@ -4,17 +4,29 @@ const Block = function(database) {};
 
 
 Block.blockUser = (user_id, other_id, result) => {
-    let q = db.query(
-        "INSERT INTO block (user_blocker, user_blocked) values (?,?) ON DUPLICATE KEY UPDATE user_blocker=user_blocker;",
-        [user_id,other_id],
-        (err, res) => {
-            if (err) {
-              result(err, null);
-              return;
-            } else {
-              result(null, null);
-              return;
-    }});
+  if (user_id == other_id) {
+    result(null, null);
+    return;
+  }
+  db.query(
+      "INSERT INTO block (user_blocker, user_blocked) values (?,?) ON DUPLICATE KEY UPDATE user_blocker=user_blocker;",
+      [user_id,other_id],
+      (err, res) => {
+          if (err) {
+            result(err, null);
+            return;
+          } else {
+            db.query("DELETE FROM friends WHERE (user_id=? AND friend_user_id=?) OR (user_id=? AND friend_user_id=?);",
+              [user_id, other_id, other_id, user_id],
+              (err, res) => {
+                if (err) {
+                  result(err, null);
+                  return;
+                }
+                result(null, null);
+                return;
+            });
+  }});
 }
 
 Block.unblockUser = (user_id, other_id, result) => {
