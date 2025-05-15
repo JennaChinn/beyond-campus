@@ -75,6 +75,7 @@ ul {
   clear: both;
   float: unset;
   border: 3px solid black;
+  border-radius:15px;
   padding:0;
 }
 li {
@@ -82,4 +83,60 @@ li {
   margin: 10px;
   cursor: pointer;
   padding-left: 5px;
+}
+
+.new-message-button {
+  background: #842434;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
+  text-decoration: none; /* Remove the underline */
+  position: relative;
+  left: 10%;
+  width: 80%;
+  top: 80px;
+}
+
+.new-message-button:hover {
+  background: #f0f0f0; /* Change to your desired hover background color */
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5); /* Enhance the shadow on hover */
+}
+
+.new-message-popup {
+  display:none;
+  width:80%;
+  position:fixed;
+  background-color: white;
+  left: 10%;
+  height: 60%;
+  overflow-y: scroll;
+  top: 20%;
+  border: 3px solid black;
+}
+
+.show {
+  display: block;
+}
+
+#close-window-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.friend-div {
+  padding: 10px;
+  cursor: pointer;
+  background-color:#eee;
+  margin: 10px;
+  border-radius: 10px
+}
+
+.friend-div:hover {
+  background-color:#ddd;
 }
