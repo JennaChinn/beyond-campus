@@ -57,21 +57,26 @@ const deleteComment = (comment_id) => {
 }
   
 const showPopup = (id, element_id) => {
-    const popup = document.getElementById(id);
-    popup.classList.toggle("show");
+    document.getElementById(id).classList.toggle("show");
     document.getElementById(element_id).classList.toggle("show");
 
     if (openPopup) {
         if (openPopup == id) openPopup=null;
-        if (openPopupElement == element_id) openPopupElement = null;
         else {
             document.getElementById(openPopup).classList.toggle("show");
             openPopup = id;
-            document.getElementById(openPopupElement).classList.toggle("show");
-            openPopupElement = element_id;
         }
     }
     else openPopup = id;
+
+    if (openPopupElement) {
+      if (openPopupElement == element_id) openPopupElement = null;
+      else {
+        document.getElementById(openPopupElement).classList.toggle("show");
+        openPopupElement = element_id;
+      }
+    }
+    else openPopupElement = element_id;
 }
 
 window.addEventListener("load", () => {
@@ -82,20 +87,20 @@ window.addEventListener("load", () => {
           "Content-Type": "application/json",
         });
         
-        fetch("/api/user", {
-            method: "GET",
-            headers,
+        fetch("/admin/verify", {
+          method: "GET",
+          headers,
         })
-        .then((response) => response.json())
-        .then((userData) => {
-            if (!userData.perm) {
+        .then((response) => response.json()
+        .then((data) => {
+            if (!data.data) {
                 alert("Access Denied");
                 window.location.href = "/";
             }
             else {
                 document.body.style.visibility="visible";
             }
-        })
+        }));
         
     } else {
         console.error("JWT token not found in cookie");

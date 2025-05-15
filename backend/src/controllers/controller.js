@@ -51,6 +51,10 @@ exports.findUser = (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  if (req.query.user_id == req.session.nickname) {
+    res.send({success: false});
+    return;
+  }
 
   User.findById(req.query.user_id, req.session.nickname, (err, data) => {
     if (err) {
@@ -515,7 +519,6 @@ exports.getCurrentUserRequests = (req, res) => {
  */
 
 exports.blockUser = (req, res) => {
-  console.log(req.body);
   Block.blockUser(req.session.nickname, req.body.block_id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {

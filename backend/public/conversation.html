@@ -12,15 +12,24 @@
               <div class="site-title col-xs-3">
                 <a href="/"><h1>Beyond Campus</h1></a>
               </div>
+              <a href="/messages"><div class="message-button">Messages</div></a>
               <a href="/auth/logout"><div class="logout-button">Log out</div></a>
             </div>
           </header>
         </div>
+
+        <div class="cover">
+          <div class="prompt-box"></div>
+        </div>
+
         <div class="message-container">
+            <button class="profile-button">View Profile</button>
             <ul class="message-list"></ul>
         </div>
-        <textarea class="message-box" id="message-box"></textarea>
-        <button id="send-button">Send</button>
+        <form id="message-form">
+          <input type="text" class="message-box" id="message-box">
+          <button type="submit" id="send-button">Send</button>
+        </form>
 
       <script type="module" src="../scripts/conversation.js"></script>
     <body>

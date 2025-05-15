@@ -41,7 +41,6 @@ window.addEventListener("load", () => {
         alert("Failed to get profile");
         window.location.href="/"
       }
-      if (userData.permissions=="1") window.location.href="/";
       else document.body.style.visibility="visible";
       // Update the username and bio on the page with fetched data
       const usernameElement = document.querySelector(".username");
@@ -86,25 +85,35 @@ window.addEventListener("load", () => {
       console.error("Error fetching hashtag data:", error);
     });
 
-  fetch("/api/friends", {
+  fetch("/admin/verify", {
     method: "GET",
     headers,
   })
     .then((response) => response.json())
     .then((data) => {
-      const friendsList = data?.data;
-      const isFriendOfUser = friendsList?.some(
-        (friend) => friend.user_id == user_id
-      );
-      if (!isFriendOfUser) {
-        document.querySelector(".add-button-wrapper").classList.add("show");
-      } else {
-        document.querySelector(".remove-button-wrapper").classList.add("show");
+      if (data.data) {
+        document.querySelector(".message-button").style.display="none";
+        return;
       }
-    })
-      .catch((error) => {
-        console.error("Error getting friends: ", error);
-      });
+      fetch("/api/friends", {
+        method: "GET",
+        headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const friendsList = data?.data;
+          const isFriendOfUser = friendsList?.some(
+            (friend) => friend.user_id == user_id
+          );
+          if (!isFriendOfUser) {
+            document.querySelector(".add-button-wrapper").classList.add("show");
+          } else {
+            document.querySelector(".remove-button-wrapper").classList.add("show");
+          }
+        })
+        .catch((error) => {
+          console.error("Error getting friends: ", error);
+        });
 
       fetch("/api/block",{
         method: "GET",
@@ -120,5 +129,6 @@ window.addEventListener("load", () => {
             document.querySelector(".unblock-user-wrapper").classList.add("show");
           }
         }));
-      document.querySelector(".report-user-button").style.display="block";
+      document.querySelector(".report-user-wrapper").classList.add("show");
+    });
 });

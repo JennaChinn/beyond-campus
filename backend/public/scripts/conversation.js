@@ -1,10 +1,21 @@
 import { getCookie } from "./getCookie.js";
+import { confirmMessage, promptMessage, alertMessage } from "./new-prompt.js";
 
 const messageList = document.querySelector(".message-list");
 const user_id = getTagsFromURL();
 const messageBox = document.getElementById("message-box");
 var messages = [];
 var openPopup;
+
+const promptBox = document.querySelector(".prompt-box");
+promptBox.innerHTML = `<p id="prompt-title">Prompt title</p>
+<textarea id="promptTextarea"></textarea>
+<button class="prompt-button" id="prompt-cancel">Cancel</button>
+<button class="prompt-button" id="prompt-accept">Submit</button>`;
+
+document.querySelector(".profile-button").addEventListener("click",() => {
+  window.location.href=`/profile?user_id=${user_id}`;
+});
 
 function getTagsFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -27,7 +38,7 @@ const postMessage = (message) => {
 
         const reportButton = document.createElement("button");
         reportButton.className = "option-button";
-        reportButton.innerText = "Report comment";
+        reportButton.innerText = "Report message";
         reportButton.addEventListener("click", () => reportComment(message.username,user_id,message.body));
         
         popupText.appendChild(reportButton);
@@ -50,11 +61,12 @@ const showPopup = (element) => {
 }
 
 const reportComment = (username, user_id, comment) => {
-  if (!window.confirm(`Are you sure you want to report ${username}?`)) return;
-  const notes = prompt("Why are you reporting this user?");
-
-  const jwt = getCookie("jwt");
-  if (jwt) {
+  promptMessage(promptBox, `Why are you reporting ${username}?`, (notes) => {
+    const jwt = getCookie("jwt");
+    if (!jwt) {
+      console.error("JWT token not found in cookie");
+      window.location.href = "/auth/logout";
+    }
     // Include the token in the fetch request headers
     const headers = new Headers({
       Authorization: `${jwt}`,
@@ -65,18 +77,40 @@ const reportComment = (username, user_id, comment) => {
         headers,
         body: JSON.stringify({report_id: user_id, message: comment, notes: notes}),
     })
-    .then((response) => response.json())
-    .then((result) => {
-        window.confirm("User reported!");
-        window.location.href="/"
+    .then((response) => {
+        alertMessage(promptBox, "User reported!", () => window.location.reload());
     })
     .catch((error) => {
         console.error("Error reporting user");
     });
-  } else {
+  });
+}
+
+const sendMessage = (e) => {
+  e.preventDefault();
+  const message = messageBox.value;
+  const jwt = getCookie("jwt");
+  if (!jwt) {
     console.error("JWT token not found in cookie");
     window.location.href = "/auth/logout";
+    return;
   }
+  // Include the token in the fetch request headers
+  const headers = new Headers({
+    Authorization: `${jwt}`,
+    "Content-Type": "application/json",
+  });
+  fetch(`/messages`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({user_id: user_id, body: message})
+    })
+        .then((response) => {
+              var newMessage = {user_to: user_id, user_from: null, username: null, body: message};
+              postMessage(newMessage);
+              messageBox.value="";
+              window.location.href="#message-box";
+        });
 }
 
 const getNewMessages = () => {
@@ -111,6 +145,8 @@ const getNewMessages = () => {
           });
 }
 
+document.querySelector("#message-form").addEventListener("submit", sendMessage);
+
 window.addEventListener("load", () => {
     // Get the JWT token from the cookie
     const jwt = getCookie("jwt");
@@ -138,32 +174,5 @@ window.addEventListener("load", () => {
                 setInterval(getNewMessages, 1000);
                 window.location.href="#message-box";
               });
-          });
-});
-
-document.getElementById("send-button").addEventListener("click", () => {
-    const message = messageBox.value;
-    const jwt = getCookie("jwt");
-  
-    if (!jwt) {
-      console.error("JWT token not found in cookie");
-      window.location.href = "/auth/logout";
-      return;
-    }
-    // Include the token in the fetch request headers
-    const headers = new Headers({
-      Authorization: `${jwt}`,
-      "Content-Type": "application/json",
-    });
-    fetch(`/messages`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({user_id: user_id, body: message})
-      })
-          .then((response) => {
-                var newMessage = {user_to: user_id, user_from: null, username: null, body: message};
-                postMessage(newMessage);
-                messageBox.value="";
-                window.location.href="#message-box";
           });
 });

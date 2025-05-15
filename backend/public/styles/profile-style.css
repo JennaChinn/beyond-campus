@@ -19,6 +19,7 @@ body {
   padding: 0;
   font-family: "Poppins", sans-serif;
   background-color: #fbfefc;
+  background-attachment: fixed;
 }
 
 header {
@@ -28,7 +29,7 @@ header {
   top: 0;
   box-sizing: border-box;
   background: #842434;
-  padding: 0 50px 0 50px;
+  padding: 0 5% 0 5%;
   height: $header-height;
   z-index: 5;
 }
@@ -52,7 +53,7 @@ header {
   padding: 5px 10px;
   border-radius: 10px;
   color: black;
-  margin: 5%;
+  margin-left: 10px;
   font-size: 12px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
@@ -72,17 +73,17 @@ a {
 }
 
 menu {
-  width: 30%;
+  width: 33%;
   position: fixed;
   padding: 0;
   z-index: 4;
-  height: calc(100% - 100px);
+  height: 100%;
   overflow-y: auto;
   background: rgba(214, 214, 212, 0.2);
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
 
   top: 59px;
-  left: 10%;
+  left: 5%;
   margin: 0;
   overflow-y: auto;
 }
@@ -186,7 +187,7 @@ menu .filter-form {
 }
 
 main {
-  position: relative;
+  position: absolute;
   width: 50%;
   min-height: 100%;
   height: auto !important;
@@ -277,7 +278,7 @@ header {
   top: 0;
   box-sizing: border-box;
   background: #842434;
-  padding: 0 50px 0 50px;
+  padding: 0 5% 0 5%;
   height: $header-height;
   z-index: 5;
 }
@@ -291,27 +292,8 @@ header {
 }
 
 .site-title h1 {
-  font-size: 24px;
+  font-size: 20px;
   color: white;
-}
-
-.logout-button {
-  background: white;
-  padding: 5px 10px;
-  border-radius: 10px;
-  color: black;
-  margin: 5%;
-  font-size: 12px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
-  transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add a smooth transition effect */
-
-  text-decoration: none; /* Remove the underline */
-}
-
-/* Change the background color and add a stronger shadow on hover */
-.logout-button:hover {
-  background: #f0f0f0; /* Change to your desired hover background color */
-  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5); /* Enhance the shadow on hover */
 }
 
 a {
@@ -444,6 +426,7 @@ a {
   left: 50%;
   transform: translate(-50%,-50%);
   z-index: 10;
+  min-width: fit-content;
 }
 
 #promptTextarea {

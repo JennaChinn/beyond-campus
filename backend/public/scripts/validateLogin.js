@@ -51,15 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then((data) => {
           if (data.success) {
-            if (window.confirm("Login succesful!")) {
-              console.log(data.perm);
-              if (data.perm) {
-                window.location.href="/admin/adminCenter"
-              }
-              else window.location.href = "/";
-            } else {
-              window.location.href = "/";
-            }
+            window.location.href="/";
           } else {
             // Display an error message based on the server's response
             warningText.innerText = data.message;

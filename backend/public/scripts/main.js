@@ -41,8 +41,8 @@ function createRequestCard(user) {
           <p><strong>Gender:</strong> ${user.gender}</p>
           <div class="hashtag-list class${user.user_id}">
           </div>
-          <button class="request-button reject-friend-button">Reject Request</button>
           <button class="request-button accept-friend-button">Accept Request</button>
+          <button class="request-button reject-friend-button">Reject Request</button>
       `;
 
   return card;
@@ -330,7 +330,7 @@ window.addEventListener("load", () => {
 
   // --- FORUM POSTS SECTION ---
   // Create a container for forum posts below friend requests
-  const forumSection = document.createElement("section");
+  const forumSection = document.createElement("div");
   forumSection.innerHTML = `
     <h2>Forum</h2>
     <form id="new-forum-post-form" style="margin-bottom: 1em;">
