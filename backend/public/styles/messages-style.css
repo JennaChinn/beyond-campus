@@ -114,6 +114,7 @@ li {
   overflow-y: scroll;
   top: 20%;
   border: 3px solid black;
+  padding-top: 30px;
 }
 
 .show {
