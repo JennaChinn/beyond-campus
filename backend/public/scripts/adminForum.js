@@ -57,21 +57,26 @@ const deleteComment = (comment_id) => {
 }
   
 const showPopup = (id, element_id) => {
-    const popup = document.getElementById(id);
-    popup.classList.toggle("show");
+    document.getElementById(id).classList.toggle("show");
     document.getElementById(element_id).classList.toggle("show");
 
     if (openPopup) {
         if (openPopup == id) openPopup=null;
-        if (openPopupElement == element_id) openPopupElement = null;
         else {
             document.getElementById(openPopup).classList.toggle("show");
             openPopup = id;
-            document.getElementById(openPopupElement).classList.toggle("show");
-            openPopupElement = element_id;
         }
     }
     else openPopup = id;
+
+    if (openPopupElement) {
+      if (openPopupElement == element_id) openPopupElement = null;
+      else {
+        document.getElementById(openPopupElement).classList.toggle("show");
+        openPopupElement = element_id;
+      }
+    }
+    else openPopupElement = element_id;
 }
 
 window.addEventListener("load", () => {

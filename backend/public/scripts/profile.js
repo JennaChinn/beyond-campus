@@ -41,7 +41,6 @@ window.addEventListener("load", () => {
         alert("Failed to get profile");
         window.location.href="/"
       }
-      if (userData.permissions=="1") window.location.href="/";
       else document.body.style.visibility="visible";
       // Update the username and bio on the page with fetched data
       const usernameElement = document.querySelector(".username");
@@ -112,24 +111,24 @@ window.addEventListener("load", () => {
             document.querySelector(".remove-button-wrapper").classList.add("show");
           }
         })
-          .catch((error) => {
-            console.error("Error getting friends: ", error);
-          });
+        .catch((error) => {
+          console.error("Error getting friends: ", error);
+        });
 
-          fetch("/api/block",{
-            method: "GET",
-            headers
-          })
-            .then((response) => response.json().then((data) => {
-              if (!data.data) return;
-              var blocks = data.data;
-              if (blocks.every((b) => b.user_id != user_id)) {
-                document.querySelector(".block-user-wrapper").classList.add("show");
-              }
-              else {
-                document.querySelector(".unblock-user-wrapper").classList.add("show");
-              }
-            }));
-          document.querySelector(".report-user-button").style.display="block";
+      fetch("/api/block",{
+        method: "GET",
+        headers
+      })
+        .then((response) => response.json().then((data) => {
+          if (!data.data) return;
+          var blocks = data.data;
+          if (blocks.every((b) => b.user_id != user_id)) {
+            document.querySelector(".block-user-wrapper").classList.add("show");
+          }
+          else {
+            document.querySelector(".unblock-user-wrapper").classList.add("show");
+          }
+        }));
+      document.querySelector(".report-user-wrapper").classList.add("show");
     });
 });

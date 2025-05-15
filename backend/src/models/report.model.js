@@ -8,8 +8,8 @@ Report.reportUser = (user_id, other_id, message, notes, result) => {
     return;
   }
   db.query(
-      "INSERT INTO report (user_reporter, user_reported,message,notes) values (?,?,?,?);",
-      [user_id,other_id,message,notes],
+      "INSERT INTO report (user_reporter,user_reported,message,notes) SELECT ?,user_id,?,? FROM user WHERE user_id=? AND permissions=0;",
+      [user_id,message,notes,other_id],
       (err, res) => {
           if (err) {
             result(err, null);

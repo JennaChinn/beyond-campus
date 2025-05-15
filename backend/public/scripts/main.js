@@ -41,8 +41,8 @@ function createRequestCard(user) {
           <p><strong>Gender:</strong> ${user.gender}</p>
           <div class="hashtag-list class${user.user_id}">
           </div>
-          <button class="request-button reject-friend-button">Reject Request</button>
           <button class="request-button accept-friend-button">Accept Request</button>
+          <button class="request-button reject-friend-button">Reject Request</button>
       `;
 
   return card;
